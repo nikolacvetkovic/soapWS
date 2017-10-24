@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+xmlns:tns="http://www.cvele.com/ws/Order/" 
+xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:entities="http://www.cvele.com/ws/Order/Entities"
+name="Order"
+targetNamespace="http://www.cvele.com/ws/Order/">
+    
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://www.cvele.com/ws/Order/">
+            <xsd:import namespace="http://www.cvele.com/ws/Order/Entities" schemaLocation="./Entities.xsd"></xsd:import>
+
+            <xsd:element name="getPizzaById">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="getPizzaByIdResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="return" type="entities:Pizza" minOccurs="1" maxOccurs="1"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+        </xsd:schema>
+    </wsdl:types>
+    
+    <wsdl:message name="getPizzaByIdRequest">
+        <wsdl:part name="request" element="tns:getPizzaById" /> 
+    </wsdl:message>
+    <wsdl:message name="getPizzaByIdResponse">
+        <wsdl:part name="response" element="tns:getPizzaByIdResponse" />
+    </wsdl:message>
+    
+    <wsdl:portType name="Order">
+        <wsdl:operation name="getPizzaById">
+            <wsdl:input message="tns:getPizzaByIdRequest" />
+            <wsdl:output message="tns:getPizzaByIdResponse" />
+        </wsdl:operation>
+    </wsdl:portType>
+    
+    <wsdl:binding name="OrderService" type="tns:Order" >
+
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+
+        <wsdl:operation name="getPizzaById">
+            <!--<soap:operation soapAction="http://www.cvele.com/ws/Order/getPizzaById"/>-->
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    
+    <wsdl:service name="Order">
+        <wsdl:port name="OrderService" binding="tns:OrderService">
+            <soap:address location="http://www.cvele.com/ws/Order/" />
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>
